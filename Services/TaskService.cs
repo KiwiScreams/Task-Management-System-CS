@@ -28,6 +28,11 @@ public class TaskService
         Console.WriteLine("Task created successfully!");
         AddLog(newTask.Id, $"Task created: {newTask.Title}");
     }
+    public List<TaskItem> GetAllTasks()
+    {
+        List<TaskItem> tasks = fileService.ReadTasks();
+        return tasks;
+    }
     // Logs management
     public void AddLog(Guid taskId, string message)
     {
