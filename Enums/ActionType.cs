@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskManagementSystem.Enums
+namespace TaskManagementSystem.Enums;
+public enum ActionType
 {
-    internal class ActionType
-    {
-    }
+    Created,
+    Updated,
+    StatusChanged,
+    Deleted
 }
