@@ -43,6 +43,21 @@ public class TaskService
         TaskItem task = FindTaskById(tasks, taskId);
         return task;
     }
+    public void UpdateTask(Guid taskId, string newTitle, string newDescription, TaskItemStatus newStatus)
+    {
+        List<TaskItem> tasks = fileService.ReadTasks();
+        TaskItem task = FindTaskById(tasks, taskId);
+        if (task == null)
+        {
+            Console.WriteLine("Task not found!");
+            return;
+        }
+        task.Title = newTitle;
+        task.Description = newDescription;
+        task.Status = newStatus;
+        fileService.WriteTasks(tasks);
+        AddLog(taskId, ActionType.Updated, $"Task updated: {task.Title}");
+    }
     public void ChangeStatus(Guid taskId, TaskItemStatus newStatus)
     {
         List<TaskItem> tasks = fileService.ReadTasks();
