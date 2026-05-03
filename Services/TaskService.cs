@@ -52,8 +52,14 @@ public class TaskService
             Console.WriteLine("Task not found!");
             return;
         }
+        if (task.Title == newTitle && task.Description == newDescription)
+        {
+            Console.WriteLine("Nothing changed.");
+            return;
+        }
         task.Title = newTitle;
         task.Description = newDescription;
+
         fileService.WriteTasks(tasks);
         AddLog(taskId, ActionType.Updated, $"Task updated: {task.Title}");
     }
@@ -74,6 +80,12 @@ public class TaskService
             Console.WriteLine("Task not found!");
             return;
         }
+        if (task.Status == newStatus)
+        {
+            Console.WriteLine("Status is already the same. Nothing changed.");
+            return;
+        }
+
         task.Status = newStatus;
         fileService.WriteTasks(tasks);
         AddLog(taskId, ActionType.StatusChanged, $"Task status changed to: {newStatus}");

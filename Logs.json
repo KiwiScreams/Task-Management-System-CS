@@ -47,5 +47,12 @@
     "ActionType": 3,
     "Message": "Task deleted: homework",
     "TimesTamp": "2026-05-03T22:33:34.1045087+04:00"
+  },
+  {
+    "Id": "99b96fc4-5201-4cd7-85a0-1f05ffa795fe",
+    "TaskId": "d55f8a01-91e0-4047-ae55-ddaac53fd9bc",
+    "ActionType": 0,
+    "Message": "Task created: new task",
+    "TimesTamp": "2026-05-03T22:42:28.0125932+04:00"
   }
 ]
