@@ -46,6 +46,19 @@ public class TaskService
         fileService.WriteTasks(tasks);
         AddLog(taskId, $"Task status changed to: {newStatus}");
     }
+    public void DeleteTask(Guid taskId)
+    {
+        List<TaskItem> tasks = fileService.ReadTasks();
+        TaskItem task = tasks.FirstOrDefault(t => t.Id == taskId);
+        if (task == null)
+        {
+            Console.WriteLine("Task not found!");
+            return;
+        }
+        tasks.Remove(task);
+        fileService.WriteTasks(tasks);
+        AddLog(taskId, $"Task deleted: {task.Title}");
+    }
     // Logs management
     public void AddLog(Guid taskId, string message)
     {
