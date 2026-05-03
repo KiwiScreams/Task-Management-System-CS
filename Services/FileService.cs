@@ -8,8 +8,8 @@ namespace TaskManagementSystem.Services;
 
 public class FileService
 {
-    private const string TasksFilePath = "Tasks.json";
-    private const string LogFilePath = "Logs.json";
+    private const string TasksFilePath = "../../../Tasks.json";
+    private const string LogFilePath = "../../../Logs.json";
 
     // Tasks management
     public void WriteTasks(List<TaskManagementSystem.Models.TaskItem> tasks)
