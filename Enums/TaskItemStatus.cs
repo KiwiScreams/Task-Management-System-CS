@@ -2,7 +2,7 @@
 using System.Linq;
 
 namespace TaskManagementSystem.Enums;
-public enum TaskStatus
+public enum TaskItemStatus
 {
     ToDo,
     InProgress,

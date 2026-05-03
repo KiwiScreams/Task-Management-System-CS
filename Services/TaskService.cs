@@ -33,6 +33,19 @@ public class TaskService
         List<TaskItem> tasks = fileService.ReadTasks();
         return tasks;
     }
+    public void ChangeStatus(Guid taskId, TaskManagementSystem.Enums.TaskItemStatus newStatus)
+    {
+        List<TaskItem> tasks = fileService.ReadTasks();
+        TaskItem task = tasks.FirstOrDefault(t => t.Id == taskId);
+        if (task == null)
+        {
+            Console.WriteLine("Task not found!");
+            return;
+        }
+        task.Status = newStatus;
+        fileService.WriteTasks(tasks);
+        AddLog(taskId, $"Task status changed to: {newStatus}");
+    }
     // Logs management
     public void AddLog(Guid taskId, string message)
     {
