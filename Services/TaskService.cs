@@ -10,6 +10,10 @@ namespace TaskManagementSystem.Services;
 public class TaskService
 {
     private FileService fileService = new FileService();
+    private TaskItem FindTaskById(List<TaskItem> tasks, Guid taskId)
+    {
+        return tasks.FirstOrDefault(t => t.Id == taskId);
+    }
     // Task management
     public void CreateTask(string title, string description)
     {
@@ -22,21 +26,23 @@ public class TaskService
         newTask.Description = description;
         newTask.Status = TaskItemStatus.ToDo;
         newTask.CreatedAt = DateTime.Now;
+
         tasks.Add(newTask);
         fileService.WriteTasks(tasks);
 
-        Console.WriteLine("Task created successfully!");
-        AddLog(newTask.Id, $"Task created: {newTask.Title}");
+        AddLog(newTask.Id, ActionType.Created, $"Task created: {newTask.Title}");
     }
+
     public List<TaskItem> GetAllTasks()
     {
-        List<TaskItem> tasks = fileService.ReadTasks();
-        return tasks;
+        return fileService.ReadTasks();
     }
-    public void ChangeStatus(Guid taskId, TaskManagementSystem.Enums.TaskItemStatus newStatus)
+    public void ChangeStatus(Guid taskId, TaskItemStatus newStatus)
     {
         List<TaskItem> tasks = fileService.ReadTasks();
-        TaskItem task = tasks.FirstOrDefault(t => t.Id == taskId);
+
+        TaskItem task = FindTaskById(tasks, taskId);
+
         if (task == null)
         {
             Console.WriteLine("Task not found!");
@@ -44,23 +50,26 @@ public class TaskService
         }
         task.Status = newStatus;
         fileService.WriteTasks(tasks);
-        AddLog(taskId, $"Task status changed to: {newStatus}");
+        AddLog(taskId, ActionType.StatusChanged, $"Task status changed to: {newStatus}");
     }
     public void DeleteTask(Guid taskId)
     {
         List<TaskItem> tasks = fileService.ReadTasks();
-        TaskItem task = tasks.FirstOrDefault(t => t.Id == taskId);
+
+        TaskItem task = FindTaskById(tasks, taskId);
+
         if (task == null)
         {
             Console.WriteLine("Task not found!");
             return;
         }
+
         tasks.Remove(task);
         fileService.WriteTasks(tasks);
-        AddLog(taskId, $"Task deleted: {task.Title}");
+        AddLog(taskId, ActionType.Deleted, $"Task deleted: {task.Title}");
     }
     // Logs management
-    public void AddLog(Guid taskId, string message)
+    private void AddLog(Guid taskId, ActionType actionType, string message)
     {
         List<Log> logs = fileService.ReadLogs();
 
@@ -68,9 +77,10 @@ public class TaskService
 
         newLog.Id = Guid.NewGuid();
         newLog.TaskId = taskId;
-        newLog.ActionType = ActionType.Created;
+        newLog.ActionType = actionType;
         newLog.Message = message;
         newLog.TimesTamp = DateTime.Now;
+
         logs.Add(newLog);
         fileService.WriteLogs(logs);
         Console.WriteLine(message);
