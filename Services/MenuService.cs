@@ -137,10 +137,21 @@ public class MenuService
 
     private Guid ReadGuid()
     {
-        Console.Write("Task Id: ");
-        string input = Console.ReadLine();
+        while (true)
+        {
+            Console.Write("Task Id: ");
+            string input = Console.ReadLine();
 
-        return Guid.Parse(input);
+            try
+            {
+                Guid id = Guid.Parse(input);
+                return id;
+            }
+            catch
+            {
+                Console.WriteLine("Wrong Id format. Try again.");
+            }
+        }
     }
 
     private TaskItemStatus ReadStatus()
