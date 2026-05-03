@@ -58,6 +58,12 @@ public class TaskService
         fileService.WriteTasks(tasks);
         AddLog(taskId, ActionType.Updated, $"Task updated: {task.Title}");
     }
+    public List<TaskItem> FilterByStatus(TaskItemStatus status)
+    {
+        List<TaskItem> tasks = fileService.ReadTasks();
+        List<TaskItem> filteredTasks = tasks.Where(t => t.Status == status).ToList();
+        return filteredTasks;
+    }
     public void ChangeStatus(Guid taskId, TaskItemStatus newStatus)
     {
         List<TaskItem> tasks = fileService.ReadTasks();
