@@ -43,7 +43,7 @@ public class TaskService
         TaskItem task = FindTaskById(tasks, taskId);
         return task;
     }
-    public void UpdateTask(Guid taskId, string newTitle, string newDescription, TaskItemStatus newStatus)
+    public void UpdateTask(Guid taskId, string newTitle, string newDescription)
     {
         List<TaskItem> tasks = fileService.ReadTasks();
         TaskItem task = FindTaskById(tasks, taskId);
@@ -54,7 +54,6 @@ public class TaskService
         }
         task.Title = newTitle;
         task.Description = newDescription;
-        task.Status = newStatus;
         fileService.WriteTasks(tasks);
         AddLog(taskId, ActionType.Updated, $"Task updated: {task.Title}");
     }
@@ -97,6 +96,12 @@ public class TaskService
         AddLog(taskId, ActionType.Deleted, $"Task deleted: {task.Title}");
     }
     // Logs management
+    public List<Log> GetLogsByTaskId(Guid taskId)
+    {
+        List<Log> logs = fileService.ReadLogs();
+        List<Log> taskLogs = logs.Where(l => l.TaskId == taskId).ToList();
+        return taskLogs;
+    }
     private void AddLog(Guid taskId, ActionType actionType, string message)
     {
         List<Log> logs = fileService.ReadLogs();
