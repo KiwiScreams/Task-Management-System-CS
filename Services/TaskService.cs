@@ -37,6 +37,12 @@ public class TaskService
     {
         return fileService.ReadTasks();
     }
+    public TaskItem GetTaskById(Guid taskId)
+    {
+        List<TaskItem> tasks = fileService.ReadTasks();
+        TaskItem task = FindTaskById(tasks, taskId);
+        return task;
+    }
     public void ChangeStatus(Guid taskId, TaskItemStatus newStatus)
     {
         List<TaskItem> tasks = fileService.ReadTasks();
@@ -52,6 +58,7 @@ public class TaskService
         fileService.WriteTasks(tasks);
         AddLog(taskId, ActionType.StatusChanged, $"Task status changed to: {newStatus}");
     }
+    
     public void DeleteTask(Guid taskId)
     {
         List<TaskItem> tasks = fileService.ReadTasks();
