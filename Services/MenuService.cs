@@ -1,5 +1,6 @@
-﻿using TaskManagementSystem.Models;
+﻿using System.Threading.Tasks;
 using TaskManagementSystem.Enums;
+using TaskManagementSystem.Models;
 
 namespace TaskManagementSystem.Services;
 
@@ -107,8 +108,20 @@ public class MenuService
     {
         Console.WriteLine("=== Delete Task ===");
         Guid id = ReadGuid();
+        TaskItem task = taskService.GetTaskById(id);
+        Console.WriteLine($"Are you sure you want to delete task {task.Title}?");
+        Console.Write("Write yes or no: ");
 
-        taskService.DeleteTask(id);
+        string answer = Console.ReadLine();
+
+        if (answer == "yes")
+        {
+            taskService.DeleteTask(id);
+        }
+        else
+        {
+            Console.WriteLine("Delete canceled.");
+        }
     }
 
     private void FilterByStatusMenu()
