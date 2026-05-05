@@ -109,6 +109,11 @@ public class MenuService
         Console.WriteLine("=== Delete Task ===");
         Guid id = ReadGuid();
         TaskItem task = taskService.GetTaskById(id);
+        if (task == null)
+        {
+            Console.WriteLine("Task not found!");
+            return;
+        }
         Console.WriteLine($"Are you sure you want to delete task {task.Title}?");
         Console.Write("Write yes or no: ");
 

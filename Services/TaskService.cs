@@ -14,9 +14,36 @@ public class TaskService
     {
         return tasks.FirstOrDefault(t => t.Id == taskId);
     }
+    private bool TextValidation(string title, string description)
+    {
+        if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(description))
+        {
+            Console.WriteLine("Task title and description cannot be empty.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private string CleanText(string text)
+    {
+        if (text == null)
+        {
+            return "";
+        }
+
+        return text.Trim();
+    }
     // Task management
     public void CreateTask(string title, string description)
     {
+        if (!TextValidation(title, description))
+        {
+            return;
+        }
+
+        title = CleanText(title);
+        description = CleanText(description);
         List<TaskItem> tasks = fileService.ReadTasks();
 
         TaskItem newTask = new TaskItem();
@@ -45,6 +72,13 @@ public class TaskService
     }
     public void UpdateTask(Guid taskId, string newTitle, string newDescription)
     {
+        if (!TextValidation(newTitle, newDescription))
+        {
+            return;
+        }
+
+        newTitle = CleanText(newTitle);
+        newDescription = CleanText(newDescription);
         List<TaskItem> tasks = fileService.ReadTasks();
         TaskItem task = FindTaskById(tasks, taskId);
         if (task == null)
