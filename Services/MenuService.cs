@@ -68,7 +68,7 @@ public class MenuService
         Console.WriteLine("=== Get Task By Id ===");
         Guid id = ReadGuid();
 
-        TaskItem? task = taskService.GetTaskById(id);
+        TaskItem task = taskService.GetTaskById(id);
 
         if (task == null)
         {
