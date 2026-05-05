@@ -12,12 +12,12 @@ public class FileService
     private const string LogFilePath = "../../../Logs.json";
 
     // Tasks management
-    public void WriteTasks(List<TaskManagementSystem.Models.TaskItem> tasks)
+    public void WriteTasks(List<TaskItem> tasks)
     {
         string TaskJson = JsonSerializer.Serialize(tasks, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(TasksFilePath, TaskJson);
     }
-    public List<TaskManagementSystem.Models.TaskItem> ReadTasks()
+    public List<TaskItem> ReadTasks()
     {
         if (!File.Exists(TasksFilePath))
         {
@@ -41,7 +41,7 @@ public class FileService
         string LogJson = JsonSerializer.Serialize(logs, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(LogFilePath, LogJson);
     }
-    public List<TaskManagementSystem.Models.Log> ReadLogs()
+    public List<Log> ReadLogs()
     {
         if (!File.Exists(LogFilePath))
         {
